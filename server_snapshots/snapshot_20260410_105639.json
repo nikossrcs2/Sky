@@ -1,0 +1,616 @@
+{
+  "_fname": "snapshot_20260410_105639.json",
+  "ts": "2026-04-10T10:56:39.140364+00:00",
+  "guild_id": 1414998098526212257,
+  "roles": [
+    {
+      "id": 1414998098526212257,
+      "name": "@everyone",
+      "color": 0,
+      "permissions": 2222085186637377,
+      "hoist": false,
+      "mentionable": false,
+      "position": 0
+    },
+    {
+      "id": 1491898045598662698,
+      "name": "Friez",
+      "color": 0,
+      "permissions": 8,
+      "hoist": false,
+      "mentionable": false,
+      "position": 1
+    },
+    {
+      "id": 1419784928157237289,
+      "name": "Server Booster",
+      "color": 16023551,
+      "permissions": 2222085186637377,
+      "hoist": false,
+      "mentionable": false,
+      "position": 2
+    },
+    {
+      "id": 1420279619398930516,
+      "name": "Sapphire",
+      "color": 0,
+      "permissions": 6756501037772030,
+      "hoist": false,
+      "mentionable": false,
+      "position": 6
+    },
+    {
+      "id": 1417955552318722089,
+      "name": "Co-Owner (reasonless, totally)",
+      "color": 16711680,
+      "permissions": 8864262743130111,
+      "hoist": true,
+      "mentionable": true,
+      "position": 8
+    },
+    {
+      "id": 1418666548301795339,
+      "name": "Owner",
+      "color": 15844367,
+      "permissions": 8864262743130111,
+      "hoist": true,
+      "mentionable": true,
+      "position": 9
+    }
+  ],
+  "role_members": {
+    "1414998098526212257": [
+      678344927997853742,
+      772095525242535966,
+      905848546744496191,
+      985601529660735488,
+      1064593089227923519,
+      1096774978566901830,
+      1106071322498437151,
+      1112211839145738392,
+      1127025898680483952,
+      1166429123225329716,
+      1174116340613779466,
+      1191067148068585502,
+      1193518145885978744,
+      1193537147903430738,
+      1197092092070076467,
+      1243425429268729870,
+      1273064155649146902,
+      1276216398657622031,
+      1282115363571503236,
+      1297648245346009160,
+      1303301904318726224,
+      1323607772624982038,
+      1326491794036490271,
+      1328248016192409668,
+      1372988596809764907,
+      1409653725051752458,
+      1458255715796910315,
+      1465783971215314986,
+      1491896544008474704
+    ],
+    "1491898045598662698": [
+      1491896544008474704
+    ],
+    "1419784928157237289": [],
+    "1420279619398930516": [
+      678344927997853742
+    ],
+    "1417955552318722089": [
+      1193537147903430738,
+      1458255715796910315,
+      1491896544008474704
+    ],
+    "1418666548301795339": [
+      1409653725051752458
+    ]
+  },
+  "categories": [
+    {
+      "id": 1414998099327455294,
+      "name": "Text Channels",
+      "position": 0
+    },
+    {
+      "id": 1414998099327455297,
+      "name": "Voice Channels",
+      "position": 3
+    },
+    {
+      "id": 1420280734920216657,
+      "name": "Staff",
+      "position": 4
+    },
+    {
+      "id": 1492116146223321130,
+      "name": "\u2605\ud835\udde6\ud835\ude01\ud835\uddee\ud835\uddff\ud835\ude01-\ud835\udddb\ud835\uddf2\ud835\uddff\ud835\uddf2\u2605",
+      "position": 5
+    },
+    {
+      "id": 1492116147053658163,
+      "name": "\u2605\ud835\udde7\ud835\uddf2\ud835\ude05\ud835\ude01-\ud835\uddd6\ud835\uddf5\ud835\uddee\ud835\uddfb\ud835\uddfb\ud835\uddf2\ud835\uddf9\ud835\ude00\u2605",
+      "position": 6
+    }
+  ],
+  "channels": [
+    {
+      "id": 1414998099327455294,
+      "name": "Text Channels",
+      "type": "category",
+      "category_id": null,
+      "position": 0
+    },
+    {
+      "id": 1414998099327455297,
+      "name": "Voice Channels",
+      "type": "category",
+      "category_id": null,
+      "position": 3
+    },
+    {
+      "id": 1414998099327455299,
+      "name": "\u2605\ud83c\udfaeGaming\ud83c\udfae\u2605",
+      "type": "voice",
+      "category_id": 1414998099327455297,
+      "position": 1
+    },
+    {
+      "id": 1414998595249111182,
+      "name": "\u2605\ud83d\udcd6rules\ud83d\udcd6\u2605",
+      "type": "text",
+      "category_id": null,
+      "position": 0
+    },
+    {
+      "id": 1414998595249111185,
+      "name": "\u2605\u2b50staff-chat\u2b50\u2605",
+      "type": "text",
+      "category_id": 1420280734920216657,
+      "position": 7
+    },
+    {
+      "id": 1417409905480044596,
+      "name": "\u2605\ud83d\udce3announcements\ud83d\udce3\u2605",
+      "type": "news",
+      "category_id": null,
+      "position": 1
+    },
+    {
+      "id": 1420280734920216657,
+      "name": "Staff",
+      "type": "category",
+      "category_id": null,
+      "position": 4
+    },
+    {
+      "id": 1420280850054119445,
+      "name": "\u2605\ud83d\udcd6logs\ud83d\udcd6\u2605",
+      "type": "text",
+      "category_id": 1420280734920216657,
+      "position": 8
+    },
+    {
+      "id": 1492116146223321130,
+      "name": "\u2605\ud835\udde6\ud835\ude01\ud835\uddee\ud835\uddff\ud835\ude01-\ud835\udddb\ud835\uddf2\ud835\uddff\ud835\uddf2\u2605",
+      "type": "category",
+      "category_id": null,
+      "position": 5
+    },
+    {
+      "id": 1492116147053658163,
+      "name": "\u2605\ud835\udde7\ud835\uddf2\ud835\ude05\ud835\ude01-\ud835\uddd6\ud835\uddf5\ud835\uddee\ud835\uddfb\ud835\uddfb\ud835\uddf2\ud835\uddf9\ud835\ude00\u2605",
+      "type": "category",
+      "category_id": null,
+      "position": 6
+    }
+  ],
+  "log_config": null,
+  "rr_data": {
+    "1485682400083181628": {
+      "\u2705": 1451197640342507593
+    },
+    "1474427460610297926": {
+      "\ud83e\udd73": 1457561325784793221,
+      "\u2642\ufe0f": 1457560691631198453,
+      "\u2640\ufe0f": 1457560740755017982,
+      "\ud83e\udd50": 1457560861710221464,
+      "\ud83c\udde9\ud83c\uddea": 1457560897445826630,
+      "\ud83c\uddef\ud83c\uddf5": 1457560973635358882,
+      "\ud83c\uddf8\ud83c\udde6": 1457560933894324406,
+      "\ud83c\uddeb\ud83c\uddf7": 1457561017147064391,
+      "\ud83e\udea6": 1476954211143909397,
+      "\ud83c\udf89": 1460047041572114606,
+      "\ud83c\uddee\ud83c\uddf3": 1460672163894919350,
+      "\ud83c\uddee\ud83c\uddf9": 1467661257199845458,
+      "\ud83c\uddea\ud83c\uddf8": 1467662444947050758,
+      "\ud83d\udd8b\ufe0f": 1469702681361776671,
+      "\u2660\ufe0f": 1469718255307587616,
+      "\ud83d\udce3": 1457561287231012866,
+      "\ud83d\udc80": 1474426612916420629,
+      "\u23ef\ufe0f": 1474022660877975706,
+      "\ud83e\uddca": 1474757230782976043,
+      "\u26c4": 1474757263947337862
+    },
+    "1476364130830123159": {
+      "\ud83c\uddf7\ud83c\uddfa": 1476363705494012035
+    }
+  },
+  "rc_data": {
+    "Staff": {
+      "and_roles": [],
+      "or_roles": [
+        1451196635278217419
+      ],
+      "grant": [
+        1462758988491001928
+      ]
+    }
+  },
+  "emojis": [
+    {
+      "id": 1434865632133775474,
+      "name": "why",
+      "animated": false,
+      "file": "emoji_1434865632133775474.png"
+    },
+    {
+      "id": 1434865693014102197,
+      "name": "waaa",
+      "animated": false,
+      "file": "emoji_1434865693014102197.png"
+    },
+    {
+      "id": 1441834556226408478,
+      "name": "Troll",
+      "animated": false,
+      "file": "emoji_1441834556226408478.png"
+    },
+    {
+      "id": 1486829860251762861,
+      "name": "Absolute_Nature",
+      "animated": false,
+      "file": "emoji_1486829860251762861.png"
+    },
+    {
+      "id": 1486829919299436636,
+      "name": "Absolute_cinema",
+      "animated": false,
+      "file": "emoji_1486829919299436636.png"
+    },
+    {
+      "id": 1486829949800153119,
+      "name": "Ah_Shit",
+      "animated": false,
+      "file": "emoji_1486829949800153119.png"
+    },
+    {
+      "id": 1486829976073404456,
+      "name": "Sad",
+      "animated": false,
+      "file": "emoji_1486829976073404456.png"
+    },
+    {
+      "id": 1486829993928556745,
+      "name": "nerd_nard",
+      "animated": false,
+      "file": "emoji_1486829993928556745.png"
+    },
+    {
+      "id": 1486830059942580344,
+      "name": "saddurr",
+      "animated": false,
+      "file": "emoji_1486830059942580344.png"
+    },
+    {
+      "id": 1486830107090751613,
+      "name": "durr",
+      "animated": false,
+      "file": "emoji_1486830107090751613.png"
+    },
+    {
+      "id": 1486830126913159308,
+      "name": "milkncookie",
+      "animated": false,
+      "file": "emoji_1486830126913159308.png"
+    },
+    {
+      "id": 1486830170651361330,
+      "name": "blueGuyBlush",
+      "animated": false,
+      "file": "emoji_1486830170651361330.png"
+    },
+    {
+      "id": 1486830240490848276,
+      "name": "alexSus",
+      "animated": true,
+      "file": "emoji_1486830240490848276.gif"
+    },
+    {
+      "id": 1486830309273112656,
+      "name": "trollface",
+      "animated": false,
+      "file": "emoji_1486830309273112656.png"
+    },
+    {
+      "id": 1486830427414200450,
+      "name": "arthgun2",
+      "animated": true,
+      "file": "emoji_1486830427414200450.gif"
+    },
+    {
+      "id": 1486830455910039714,
+      "name": "rdarthur",
+      "animated": true,
+      "file": "emoji_1486830455910039714.gif"
+    },
+    {
+      "id": 1486830488504107082,
+      "name": "emoji_66",
+      "animated": false,
+      "file": "emoji_1486830488504107082.png"
+    },
+    {
+      "id": 1486830728732868698,
+      "name": "HELL_YEAH",
+      "animated": false,
+      "file": "emoji_1486830728732868698.png"
+    },
+    {
+      "id": 1486831046749192262,
+      "name": "bruhStare",
+      "animated": false,
+      "file": "emoji_1486831046749192262.png"
+    },
+    {
+      "id": 1486831126063616111,
+      "name": "laughCry",
+      "animated": true,
+      "file": "emoji_1486831126063616111.gif"
+    },
+    {
+      "id": 1486831168417566820,
+      "name": "nerd",
+      "animated": true,
+      "file": "emoji_1486831168417566820.gif"
+    },
+    {
+      "id": 1486832156788391996,
+      "name": "Uhm",
+      "animated": false,
+      "file": "emoji_1486832156788391996.png"
+    },
+    {
+      "id": 1486832251126681660,
+      "name": "woah",
+      "animated": false,
+      "file": "emoji_1486832251126681660.png"
+    },
+    {
+      "id": 1486832686713802853,
+      "name": "LC_arch",
+      "animated": false,
+      "file": "emoji_1486832686713802853.png"
+    },
+    {
+      "id": 1486832711480905859,
+      "name": "LC_Manjaro",
+      "animated": false,
+      "file": "emoji_1486832711480905859.png"
+    },
+    {
+      "id": 1486832739431874590,
+      "name": "LC_mint",
+      "animated": false,
+      "file": "emoji_1486832739431874590.png"
+    },
+    {
+      "id": 1486832801151189145,
+      "name": "emoji_13",
+      "animated": false,
+      "file": "emoji_1486832801151189145.png"
+    },
+    {
+      "id": 1486833244967141466,
+      "name": "LFG_c",
+      "animated": false,
+      "file": "emoji_1486833244967141466.png"
+    },
+    {
+      "id": 1486833276755902505,
+      "name": "daniSmug",
+      "animated": false,
+      "file": "emoji_1486833276755902505.png"
+    },
+    {
+      "id": 1486833375531766030,
+      "name": "LC_peepo_heart",
+      "animated": false,
+      "file": "emoji_1486833375531766030.png"
+    },
+    {
+      "id": 1486833487246786600,
+      "name": "KAIOKEN",
+      "animated": false,
+      "file": "emoji_1486833487246786600.png"
+    },
+    {
+      "id": 1486833528435118221,
+      "name": "meme_harold",
+      "animated": false,
+      "file": "emoji_1486833528435118221.png"
+    },
+    {
+      "id": 1486833559724490962,
+      "name": "arty",
+      "animated": false,
+      "file": "emoji_1486833559724490962.png"
+    }
+  ],
+  "stickers": [
+    {
+      "id": 1486830885134139443,
+      "name": "Jackpot.",
+      "description": "Dante \ud83d\udd25",
+      "file": "sticker_1486830885134139443.png"
+    }
+  ],
+  "members": [
+    {
+      "id": 678344927997853742,
+      "nick": null,
+      "roles": [
+        1420279619398930516
+      ]
+    },
+    {
+      "id": 772095525242535966,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 905848546744496191,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 985601529660735488,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1064593089227923519,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1096774978566901830,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1106071322498437151,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1112211839145738392,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1127025898680483952,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1166429123225329716,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1174116340613779466,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1191067148068585502,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1193518145885978744,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1193537147903430738,
+      "nick": null,
+      "roles": [
+        1417955552318722089
+      ]
+    },
+    {
+      "id": 1197092092070076467,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1243425429268729870,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1273064155649146902,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1276216398657622031,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1282115363571503236,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1297648245346009160,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1303301904318726224,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1323607772624982038,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1326491794036490271,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1328248016192409668,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1372988596809764907,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1409653725051752458,
+      "nick": null,
+      "roles": [
+        1418666548301795339
+      ]
+    },
+    {
+      "id": 1458255715796910315,
+      "nick": null,
+      "roles": [
+        1417955552318722089
+      ]
+    },
+    {
+      "id": 1465783971215314986,
+      "nick": null,
+      "roles": []
+    },
+    {
+      "id": 1491896544008474704,
+      "nick": null,
+      "roles": [
+        1491898045598662698,
+        1417955552318722089
+      ]
+    }
+  ]
+}

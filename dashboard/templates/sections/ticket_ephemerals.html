@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Ticket Ephemerals — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>📝 Ticket Ephemerals</h1>
+  <p>Configure the question forms shown when a user opens a ticket. Max 5 questions per type.</p>
+</section>
+<div class="dash-body">
+  {% for t in types %}
+  <div class="dash-card">
+    <h2>{{ t.name.title() }} <span class="badge">{{ questions[t.name]|length }} question(s)</span></h2>
+    <div class="form-row">
+      <input class="ice-input" id="q-{{ t.name }}" placeholder="New question...">
+      <button class="btn-ice-sm" onclick="addQ('{{ t.name }}')">Add</button>
+      <button class="btn-danger-sm" onclick="clearQ('{{ t.name }}')">Clear all</button>
+    </div>
+    <div id="result-{{ t.name }}" class="result-box hidden"></div>
+    {% if questions[t.name] %}
+    <table class="ice-table" style="margin-top:.75rem;">
+      <thead><tr><th>#</th><th>Question</th><th></th></tr></thead>
+      <tbody id="tbody-{{ t.name }}">
+        {% for q in questions[t.name] %}
+        <tr id="qrow-{{ q.id }}">
+          <td class="muted">{{ loop.index }}</td>
+          <td>{{ q.question }}</td>
+          <td><button class="btn-danger-sm" onclick="removeQ({{ q.id }}, '{{ t.name }}')">Remove</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="muted" style="margin-top:.5rem;font-size:.82rem;">No questions yet — ticket opens immediately without a form.</p>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="dash-card"><p class="muted">No ticket types set up yet. Use <code>$setuptickets</code> in the server first.</p></div>
+  {% endfor %}
+</div>
+{% endblock %}
+{% block head %}
+<script>
+async function api(url, method='GET', body=null) {
+  const opts = { method, headers: {'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'} };
+  if (body && method !== 'GET') opts.body = JSON.stringify(body);
+  try { const r = await fetch(url, opts); return await r.json(); }
+  catch(e) { return {error: e.message}; }
+}
+</script>
+{% endblock %}
+{% block scripts %}
+<script>
+async function addQ(typeName) {
+  const q = document.getElementById('q-' + typeName).value.trim();
+  if (!q) return;
+  const res = await api('/friez/dashboard/ticket-ephemerals/api/add', 'POST', { type_name: typeName, question: q });
+  const box = document.getElementById('result-' + typeName);
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok ? '<span class="ok">Added.</span>' : `<span class="err">${res.error}</span>`;
+  if (res.ok) setTimeout(() => location.reload(), 700);
+}
+async function removeQ(id, typeName) {
+  const res = await api('/friez/dashboard/ticket-ephemerals/api/remove', 'POST', { id });
+  if (res.ok) document.getElementById('qrow-' + id)?.remove();
+}
+async function clearQ(typeName) {
+  if (!confirm('Clear all questions for ' + typeName + '?')) return;
+  const res = await api('/friez/dashboard/ticket-ephemerals/api/clear', 'POST', { type_name: typeName });
+  if (res.ok) location.reload();
+}
+</script>
+{% endblock %}

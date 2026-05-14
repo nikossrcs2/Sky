@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Roles — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>🎭 Roles</h1>
+</section>
+
+<div class="dash-body">
+  <div class="dash-card">
+    <h2>Reaction Roles</h2>
+    {% if reaction_roles %}
+    <table class="ice-table">
+      <thead><tr><th>Message ID</th><th>Emoji</th><th>Role ID</th><th></th></tr></thead>
+      <tbody>
+        {% for rr in reaction_roles %}
+        <tr>
+          <td><code data-cid="{{ rr.message_id }}">{{ rr.message_id }}</code></td>
+          <td>{{ rr.emoji }}</td>
+          <td><code data-rid="{{ rr.role_id }}">{{ rr.role_id }}</code></td>
+          <td><button class="btn-danger-sm" onclick="removeRR('{{ rr.message_id }}', '{{ rr.emoji }}')">Remove</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">No reaction roles configured.</p>
+    {% endif %}
+
+    <div style="margin-top:1.5rem">
+      <h3>Add Reaction Role</h3>
+      <div class="form-row">
+        <input id="rr-mid" class="ice-input" placeholder="Message ID">
+        <input id="rr-emoji" class="ice-input" placeholder="Emoji (e.g. ✅)">
+        <input id="rr-role" class="ice-input" placeholder="Role ID">
+        <button class="btn-ice-sm" onclick="addRR()">Add</button>
+      </div>
+      <div id="rr-result" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div class="dash-card">
+    <h2>Role Chains (RC) & Ghost Mode</h2>
+    <p class="muted">RC and Ghost Mode are complex multi-step configs. Use the bot commands
+      <code>$rc</code> and <code>$ghost</code> for these — full GUI support coming later.</p>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function addRR() {
+  const res = await api('/friez/dashboard/roles/api/rr/add', 'POST', {
+    message_id: document.getElementById('rr-mid').value.trim(),
+    emoji:      document.getElementById('rr-emoji').value.trim(),
+    role_id:    document.getElementById('rr-role').value.trim()
+  });
+  const box = document.getElementById('rr-result');
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok ? '<span class="ok">Added.</span>' : `<span class="err">${res.error}</span>`;
+  if (res.ok) setTimeout(() => location.reload(), 800);
+}
+
+async function removeRR(mid, emoji) {
+  const res = await api('/friez/dashboard/roles/api/rr/remove', 'POST', { message_id: mid, emoji });
+  res.ok ? location.reload() : alert(res.error);
+}
+</script>
+{% endblock %}

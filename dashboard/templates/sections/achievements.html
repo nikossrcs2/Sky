@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Achievements — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>🏅 Achievements</h1>
+</section>
+<div class="dash-body">
+  <div class="dash-card">
+    <h2>Create / Edit Achievement</h2>
+    <div class="form-col">
+      <input id="a-id"   class="ice-input" placeholder="ID (e.g. first_win)">
+      <input id="a-name" class="ice-input" placeholder="Display name">
+      <input id="a-desc" class="ice-input" placeholder="Description">
+      <input id="a-cond" class="ice-input" placeholder="Condition (informational)">
+      <input id="a-color" class="ice-input" placeholder="Color hex (e.g. #5865F2)" value="#5865F2">
+      <button class="btn-ice-sm" onclick="upsertAch()">Save</button>
+    </div>
+    <div id="ach-result" class="result-box hidden"></div>
+  </div>
+
+  <div class="dash-card">
+    <h2>All Achievements <span class="badge">{{ defs|length }}</span></h2>
+    {% if defs %}
+    <table class="ice-table">
+      <thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Color</th><th></th></tr></thead>
+      <tbody>
+        {% for d in defs %}
+        <tr>
+          <td><code>{{ d.id }}</code></td>
+          <td>{{ d.name }}</td>
+          <td>{{ d.description }}</td>
+          <td><span class="color-dot" style="background:{{ d.color }}"></span> {{ d.color }}</td>
+          <td><button class="btn-danger-sm" onclick="deleteAch('{{ d.id }}')">Delete</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">No achievements on the menu yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function upsertAch() {
+  const res = await api('/friez/dashboard/achievements/api/upsert', 'POST', {
+    id: document.getElementById('a-id').value.trim(),
+    name: document.getElementById('a-name').value.trim(),
+    description: document.getElementById('a-desc').value.trim(),
+    condition: document.getElementById('a-cond').value.trim(),
+    color: document.getElementById('a-color').value.trim()
+  });
+  const box = document.getElementById('ach-result');
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok ? '<span class="ok">Saved.</span>' : `<span class="err">${res.error}</span>`;
+  if (res.ok) setTimeout(() => location.reload(), 800);
+}
+async function deleteAch(id) {
+  if (!confirm(`Delete achievement "${id}"?`)) return;
+  const res = await api('/friez/dashboard/achievements/api/delete', 'POST', { id });
+  res.ok ? location.reload() : alert(res.error);
+}
+</script>
+{% endblock %}

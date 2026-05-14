@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Counting — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>🔢 Counting Channel</h1>
+</section>
+<div class="dash-body">
+  <div class="dash-card">
+    <h2>Current State</h2>
+    <div class="stat-row"><span>Current count</span><strong>{{ cdata.current_count }}</strong></div>
+    <div class="stat-row"><span>Last user ID</span><strong data-uid="{{ cdata.last_user_id }}">{{ cdata.last_user_id or '—' }}</strong></div>
+    <div class="stat-row"><span>Safes remaining</span><strong>{{ cdata.safes }}</strong></div>
+  </div>
+  <div class="dash-card">
+    <h2>Adjust</h2>
+    <div class="form-row">
+      <input id="new-count" class="ice-input" type="number" placeholder="Set count to...">
+      <button class="btn-ice-sm" onclick="setCount()">Set Count</button>
+    </div>
+    <div class="form-row" style="margin-top:.75rem">
+      <input id="new-safes" class="ice-input" type="number" placeholder="Set safes to...">
+      <button class="btn-ice-sm" onclick="setSafes()">Set Safes</button>
+    </div>
+    <div id="count-result" class="result-box hidden"></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function setCount() {
+  const n = document.getElementById('new-count').value;
+  const res = await api('/friez/dashboard/counting/api/setcount', 'POST', { count: n });
+  const box = document.getElementById('count-result');
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok ? '<span class="ok">Count updated.</span>' : `<span class="err">${res.error}</span>`;
+}
+async function setSafes() {
+  const n = document.getElementById('new-safes').value;
+  const res = await api('/friez/dashboard/counting/api/setsafes', 'POST', { safes: n });
+  const box = document.getElementById('count-result');
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok ? '<span class="ok">Safes updated.</span>' : `<span class="err">${res.error}</span>`;
+}
+</script>
+{% endblock %}

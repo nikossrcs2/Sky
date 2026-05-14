@@ -1,0 +1,59 @@
+{
+    "achievements": [
+        {
+            "id": "new",
+            "name": "New",
+            "description": "Played Twenty One for the very first time.",
+            "condition": "first_game"
+        },
+        {
+            "id": "standoff",
+            "name": "Standoff",
+            "description": "Both players drew the same number of cards.",
+            "condition": "standoff"
+        },
+        {
+            "id": "ultimate_standoff",
+            "name": "Ultimate Standoff",
+            "description": "Both players hit exactly 21 in the same round.",
+            "condition": "ultimate_standoff"
+        },
+        {
+            "id": "in_2_seconds",
+            "name": "In 2 Seconds",
+            "description": "Started with 10 and 11 as initial cards.",
+            "condition": "deck_initial[10,11]"
+        },
+        {
+            "id": "ultimate_unlucky",
+            "name": "Ultimate Unlucky",
+            "description": "Started with two 11s \u2014 worst possible draw.",
+            "condition": "deck_initial[11,11]"
+        },
+        {
+            "id": "unlucky",
+            "name": "Unlucky",
+            "description": "Lost 5 games in a row during rematches.",
+            "condition": "loss_streak[5]"
+        },
+        {
+            "id": "really_unlucky",
+            "name": "REALLY Unlucky",
+            "description": "Got muted for 10+ minutes after losing.",
+            "condition": "muted[10]"
+        },
+        {
+            "id": "sore_loser",
+            "name": "Sore Loser",
+            "description": "Won a game but refused the rematch.",
+            "condition": "winner_vetoed"
+        },
+        {
+            "id": "a_true_king",
+            "name": "A True King",
+            "description": "Won a game and accepted the rematch.",
+            "condition": "winner_rematched"
+        }
+    ],
+    "players": {}
+}

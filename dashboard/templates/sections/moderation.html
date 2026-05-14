@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Moderation — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>🔨 Moderation</h1>
+</section>
+
+<div class="dash-body">
+
+  <div class="dash-card">
+    <h2>AI Bans <span class="badge">{{ bans|length }} active</span></h2>
+    {% if bans %}
+    <table class="ice-table">
+      <thead><tr><th>User ID</th><th>Expires</th><th>Reason</th><th>Scanner</th><th></th></tr></thead>
+      <tbody>
+        {% for b in bans %}
+        <tr>
+          <td><code data-uid="{{ b.user_id }}">{{ b.user_id }}</code></td>
+          <td>{{ 'Permanent' if b.expiry is none else b.expiry|int|datetimeformat }}</td>
+          <td>{{ b.reason or '—' }}</td>
+          <td>{% if b.scanner_flagged %}<span class="badge-warn">⚠ Scanner</span>{% else %}—{% endif %}</td>
+          <td>
+            {% if not b.scanner_flagged or tier == 'dev' %}
+            <button class="btn-danger-sm" onclick="aiUnban('{{ b.user_id }}')">Lift</button>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">No active AI bans — clean kitchen.</p>
+    {% endif %}
+
+    <div style="margin-top:1.5rem">
+      <h3>Issue AI Ban</h3>
+      <div class="form-row">
+        <input id="ban-uid" class="ice-input" placeholder="User ID">
+        <input id="ban-dur" class="ice-input" placeholder="Duration (1h/1d/permanent)">
+        <input id="ban-reason" class="ice-input" placeholder="Reason">
+        <button class="btn-danger-sm" onclick="issueBan()">Ban</button>
+      </div>
+      <div id="ban-result" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div class="dash-card">
+    <h2>Active Stmutes <span class="badge">{{ stmutes|length }}</span></h2>
+    {% if stmutes %}
+    <table class="ice-table">
+      <thead><tr><th>User ID</th><th>Until</th><th>Roles</th><th></th></tr></thead>
+      <tbody>
+        {% for s in stmutes %}
+        <tr>
+          <td><code data-uid="{{ s.user_id }}">{{ s.user_id }}</code></td>
+          <td>{{ s.until }}</td>
+          <td><small>{{ s.reason or '—' }}</small></td>
+          <td><button class="btn-danger-sm" onclick="unstmute('{{ s.user_id }}')">Lift</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">No active stmutes.</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function aiUnban(uid) {
+  const res = await api('/friez/dashboard/moderation/api/aiunban', 'POST', { user_id: uid });
+  res.ok ? location.reload() : alert(res.error);
+}
+
+async function issueBan() {
+  const uid    = document.getElementById('ban-uid').value.trim();
+  const dur    = document.getElementById('ban-dur').value.trim() || 'permanent';
+  const reason = document.getElementById('ban-reason').value.trim();
+  const res    = await api('/friez/dashboard/moderation/api/aiban', 'POST', { user_id: uid, duration: dur, reason });
+  const box    = document.getElementById('ban-result');
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok ? '<span class="ok">Ban issued.</span>' : `<span class="err">${res.error}</span>`;
+  if (res.ok) setTimeout(() => location.reload(), 1000);
+}
+
+async function unstmute(uid) {
+  const res = await api('/friez/dashboard/moderation/api/unstmute', 'POST', { user_id: uid });
+  res.ok ? location.reload() : alert(res.error);
+}
+</script>
+{% endblock %}

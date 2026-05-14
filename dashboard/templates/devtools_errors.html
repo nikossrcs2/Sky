@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Devtools — Error Pages{% endblock %}
+{% block content %}
+<div class="dash-header">
+  <a href="/friez/devtools/" class="back-link">← Devtools</a>
+  <h1>🔴 Error Pages</h1>
+  <p>Preview all HTTP error page designs.</p>
+</div>
+
+<div class="dash-card" style="max-width:640px;">
+  <h2>🖼 Preview Pages</h2>
+  <p class="muted" style="font-size:.8rem;margin-bottom:.75rem;">Opens the error page in a new tab. The trigger endpoint returns 418 if you're not authorised.</p>
+  <div class="etc-grid">
+    <a href="/friez/devtools/trigger/403" class="etc-card" style="--c:var(--warn);" target="_blank">
+      <span class="etc-code">403</span><span class="etc-name">Forbidden</span><span class="etc-desc">Access denied</span>
+    </a>
+    <a href="/friez/devtools/trigger/404" class="etc-card" style="--c:var(--ice-3);" target="_blank">
+      <span class="etc-code">404</span><span class="etc-name">Not Found</span><span class="etc-desc">Missing page</span>
+    </a>
+    <a href="/friez/devtools/trigger/418" class="etc-card" style="--c:var(--ok);" target="_blank">
+      <span class="etc-code">418</span><span class="etc-name">Teapot</span><span class="etc-desc">Dev gate</span>
+    </a>
+    <a href="/friez/devtools/trigger/429" class="etc-card" style="--c:var(--warn);" target="_blank">
+      <span class="etc-code">429</span><span class="etc-name">Too Many</span><span class="etc-desc">Rate limited</span>
+    </a>
+    <a href="/friez/devtools/trigger/500" class="etc-card" style="--c:var(--danger);" target="_blank">
+      <span class="etc-code">500</span><span class="etc-name">Server Error</span><span class="etc-desc">Internal crash</span>
+    </a>
+    <a href="/friez/devtools/trigger/503" class="etc-card" style="--c:var(--danger);" target="_blank">
+      <span class="etc-code">503</span><span class="etc-name">Unavailable</span><span class="etc-desc">Server down</span>
+    </a>
+    <a href="/friez/devtools/trigger/400" class="etc-card" style="--c:var(--muted);" target="_blank">
+      <span class="etc-code">400</span><span class="etc-name">Bad Request</span><span class="etc-desc">Generic fallback</span>
+    </a>
+  </div>
+  {% if not is_sensitive %}
+  <div style="margin-top:1rem;padding:.75rem 1rem;background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.2);border-radius:var(--radius);font-size:.8rem;color:var(--muted);">
+    🔒 Error triggers require sensitive access. Clicking a card will return 418.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+{% block head %}
+<style>
+  .etc-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem;margin-top:.75rem; }
+  .etc-card { display:flex;flex-direction:column;gap:.2rem;background:var(--card-bg);backdrop-filter:var(--blur);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;text-decoration:none;transition:border-color .2s,transform .15s;position:relative;overflow:hidden; }
+  .etc-card::before { content:'';position:absolute;inset:0;background:var(--c);opacity:0;transition:opacity .2s; }
+  .etc-card:hover { border-color:var(--c);transform:translateY(-2px); }
+  .etc-card:hover::before { opacity:.06; }
+  .etc-code { font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--c);line-height:1; }
+  .etc-name { font-family:var(--font-display);font-size:.82rem;font-weight:600;color:var(--ice-1);margin-top:.3rem; }
+  .etc-desc { font-size:.75rem;color:var(--muted); }
+</style>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Friez{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <div>
+    <h1>Dashboard</h1>
+    <p>Logged in as <strong>{{ user.global_name or user.username }}</strong>
+       <span class="tier-badge tier-{{ tier }}">{{ tier }}</span>
+    </p>
+  </div>
+</section>
+
+<div class="section-grid">
+
+  <a href="/friez/dashboard/economy/" class="section-card">
+    <div class="sc-icon">🪙</div>
+    <h3>Economy</h3>
+    <p>View balances, award or deduct BB/CC, browse the leaderboard.</p>
+    <span class="sc-tier">mod+</span>
+  </a>
+
+  <a href="/friez/dashboard/callsigns/" class="section-card">
+    <div class="sc-icon">📡</div>
+    <h3>Callsigns</h3>
+    <p>View all assigned callsigns.</p>
+    <span class="sc-tier">mod+</span>
+  </a>
+
+  {# ── Mod+ ── #}
+  {% if tier in ('mod', 'admin', 'dev') %}
+  <a href="/friez/dashboard/moderation/" class="section-card">
+    <div class="sc-icon">🔨</div>
+    <h3>Moderation</h3>
+    <p>Manage AI bans, stmutes, view active punishments.</p>
+    <span class="sc-tier">mod+</span>
+  </a>
+
+  <a href="/friez/dashboard/automod/" class="section-card">
+    <div class="sc-icon">🛡</div>
+    <h3>Word Filters</h3>
+    <p>Add or remove words from the automod filter lists.</p>
+    <span class="sc-tier">mod+</span>
+  </a>
+  {% endif %}
+
+  {# ── Admin+ ── #}
+  {% if tier in ('admin', 'dev') %}
+  <a href="/friez/dashboard/ai/" class="section-card">
+    <div class="sc-icon">🤖</div>
+    <h3>AI Config</h3>
+    <p>Set the AI channel, view scan model configuration.</p>
+    <span class="sc-tier">admin</span>
+  </a>
+
+  <a href="/friez/dashboard/roles/" class="section-card">
+    <div class="sc-icon">🎭</div>
+    <h3>Roles</h3>
+    <p>Manage reaction roles (RR), role chains (RC), join roles.</p>
+    <span class="sc-tier">admin</span>
+  </a>
+
+  <a href="/friez/dashboard/counting/" class="section-card">
+    <div class="sc-icon">🔢</div>
+    <h3>Counting</h3>
+    <p>Set the current count, add safes, view last user.</p>
+    <span class="sc-tier">admin</span>
+  </a>
+
+  <a href="/friez/dashboard/achievements/" class="section-card">
+    <div class="sc-icon">🏅</div>
+    <h3>Achievements</h3>
+    <p>Create, edit, or delete achievement definitions.</p>
+    <span class="sc-tier">admin</span>
+  </a>
+
+  <a href="/friez/dashboard/settings/" class="section-card">
+    <div class="sc-icon">⚙️</div>
+    <h3>Guild Settings</h3>
+    <p>Raw key/value settings store — all $set* equivalents.</p>
+    <span class="sc-tier">admin</span>
+  </a>
+
+  <a href="/friez/dashboard/ticket-ephemerals/" class="section-card">
+    <div class="sc-icon">📝</div>
+    <h3>Ticket Ephemerals</h3>
+    <p>Edit the question forms shown when opening each ticket type.</p>
+    <span class="sc-tier">admin</span>
+  </a>
+
+  <a href="/friez/dashboard/appeal-ephemeral/" class="section-card">
+    <div class="sc-icon">⚖️</div>
+    <h3>Appeal Ephemeral</h3>
+    <p>Edit the questions shown in the ban appeal form.</p>
+    <span class="sc-tier">admin</span>
+  </a>
+
+  {% if tier == 'dev' %}
+  <a href="/friez/dashboard/devtools/" class="section-card">
+    <div class="sc-icon">🛠</div>
+    <h3>Devtools Access</h3>
+    <p>Grant or revoke sensitive devtools access for specific users.</p>
+    <span class="sc-tier">dev</span>
+  </a>
+  {% endif %}
+
+  {% endif %}
+
+</div>
+{% endblock %}

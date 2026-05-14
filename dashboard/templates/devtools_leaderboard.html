@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Devtools — BB Leaderboard{% endblock %}
+{% block content %}
+<div class="dash-header">
+  <a href="/friez/devtools/" class="back-link">← Devtools</a>
+  <h1>🏆 BB Leaderboard</h1>
+  <p>Top 20 Burger Buck holders.</p>
+</div>
+<div class="dash-card" style="max-width:500px;">
+  <table class="ice-table">
+    <thead><tr><th>#</th><th>User ID</th><th>BB</th></tr></thead>
+    <tbody>
+      {% for row in top %}
+      <tr>
+        <td class="muted">{{ loop.index }}</td>
+        <td><code>{{ row.user_id }}</code></td>
+        <td><strong>{{ "{:,}".format(row.fc) }}</strong> BB</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3" class="muted">No data yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

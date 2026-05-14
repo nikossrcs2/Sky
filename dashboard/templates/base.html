@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Chezburger's Community{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='friez.js') }}" defer></script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="ice-bg"></div>
+
+  <nav class="topnav">
+    <a href="/" class="nav-brand">🍔 CHEZBURGER'S</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/credits/">Credits</a>
+      <a href="/friez/">Friez</a>
+      {% if session.get('user_info') %}
+        <a href="/friez/dashboard/">Dashboard</a>
+        <span class="nav-user">
+          {% set u = session['user_info'] %}
+          <img src="https://cdn.discordapp.com/avatars/{{ u.id }}/{{ u.avatar }}.webp?size=32"
+               onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'"
+               class="nav-avatar">
+          {{ u.global_name or u.username }}
+        </span>
+        <a href="/friez/dashboard/logout" class="nav-logout">← logout</a>
+      {% else %}
+        <a href="/friez/dashboard/" class="btn-ice-sm">Dashboard</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <span>🍔 chezburgers.onion <a href="/friez/devtools/" class="dev-link" title="Devtools">· devtools</a></span>
+    <span>powered by Friez</span>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+  <style>
+    .dev-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .7rem;
+      opacity: 0.4;
+      transition: opacity .2s;
+    }
+    .dev-link:hover { opacity: 1; color: var(--ok); }
+  </style>
+</body>
+</html>

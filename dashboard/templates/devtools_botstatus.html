@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Devtools — Bot Status{% endblock %}
+{% block content %}
+<div class="dash-header">
+  <a href="/friez/devtools/" class="back-link">← Devtools</a>
+  <h1>🤖 Bot Status</h1>
+  <p>Live connectivity check for Friez.</p>
+</div>
+<div class="dash-card" style="max-width:500px;">
+  <h2>⚡ Ping</h2>
+  <div id="status-rows" style="margin-top:.5rem;">
+    <div class="stat-row"><span>Dashboard</span><span id="dash-status" class="ok">● Online</span></div>
+    <div class="stat-row"><span>DB reachable</span><span id="db-status">checking...</span></div>
+    <div class="stat-row"><span>Response time</span><span id="ping-ms">—</span></div>
+    <div class="stat-row"><span>Checked at</span><span id="checked-at">—</span></div>
+  </div>
+  <button class="btn-ice-sm" style="margin-top:1rem;" onclick="runCheck()">↻ Recheck</button>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function runCheck() {
+  const t0 = performance.now();
+  document.getElementById('db-status').textContent = 'checking...';
+  document.getElementById('ping-ms').textContent = '—';
+  try {
+    const r = await fetch('/friez/devtools/api/ping');
+    const ms = Math.round(performance.now() - t0);
+    const d = await r.json();
+    document.getElementById('db-status').innerHTML = d.db ? '<span class="ok">● Reachable</span>' : '<span class="err">● Unreachable</span>';
+    document.getElementById('ping-ms').textContent = ms + ' ms';
+    document.getElementById('checked-at').textContent = new Date().toLocaleTimeString();
+  } catch(e) {
+    document.getElementById('db-status').innerHTML = '<span class="err">● Error</span>';
+  }
+}
+runCheck();
+</script>
+{% endblock %}

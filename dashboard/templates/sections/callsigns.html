@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Callsigns — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>📡 Callsigns</h1>
+</section>
+<div class="dash-body">
+  {% if tier in ('admin', 'dev') %}
+  <div class="dash-card">
+    <h2>Assign Callsign</h2>
+    <div class="form-row">
+      <input id="cs-uid" class="ice-input" placeholder="User ID">
+      <input id="cs-val" class="ice-input" placeholder="Callsign (e.g. SR8PP)">
+      <button class="btn-ice-sm" onclick="setCs()">Assign</button>
+    </div>
+    <div id="cs-result" class="result-box hidden"></div>
+  </div>
+  {% endif %}
+
+  <div class="dash-card">
+    <h2>All Callsigns <span class="badge">{{ callsigns|length }}</span></h2>
+    {% if callsigns %}
+    <table class="ice-table">
+      <thead><tr><th>User ID</th><th>Callsign</th>{% if tier in ('admin','dev') %}<th></th>{% endif %}</tr></thead>
+      <tbody>
+        {% for uid, cs in callsigns.items() %}
+        <tr>
+          <td><code data-uid="{{ uid }}">{{ uid }}</code></td>
+          <td><strong>{{ cs }}</strong></td>
+          {% if tier in ('admin', 'dev') %}
+          <td><button class="btn-danger-sm" onclick="deleteCs('{{ uid }}')">Remove</button></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">No callsigns assigned yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function setCs() {
+  const res = await api('/friez/dashboard/callsigns/api/set', 'POST', {
+    user_id: document.getElementById('cs-uid').value.trim(),
+    callsign: document.getElementById('cs-val').value.trim().toUpperCase()
+  });
+  const box = document.getElementById('cs-result');
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok ? '<span class="ok">Assigned.</span>' : `<span class="err">${res.error}</span>`;
+  if (res.ok) setTimeout(() => location.reload(), 800);
+}
+async function deleteCs(uid) {
+  const res = await api('/friez/dashboard/callsigns/api/delete', 'POST', { user_id: uid });
+  res.ok ? location.reload() : alert(res.error);
+}
+</script>
+{% endblock %}

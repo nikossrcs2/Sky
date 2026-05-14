@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Devtools — Chezburger's Community{% endblock %}
+{% block content %}
+<div class="dash-header">
+  <h1>🛠 Devtools</h1>
+  <p>Developer and diagnostics tools for Chezburger's Community.</p>
+</div>
+
+<div class="etc-section-label">🌐 Public</div>
+<div class="etc-index-grid">
+
+  <a href="/friez/devtools/errors" class="etc-index-card">
+    <span class="etc-index-icon">🔴</span>
+    <div>
+      <div class="etc-index-name">Error Pages</div>
+      <div class="etc-index-desc">Preview all HTTP error pages</div>
+    </div>
+    <span class="sc-tier" style="position:static;font-size:.65rem;">public</span>
+  </a>
+
+  <a href="/friez/devtools/botstatus" class="etc-index-card">
+    <span class="etc-index-icon">🤖</span>
+    <div>
+      <div class="etc-index-name">Bot Status</div>
+      <div class="etc-index-desc">Live ping & uptime check</div>
+    </div>
+    <span class="sc-tier" style="position:static;font-size:.65rem;">public</span>
+  </a>
+
+</div>
+
+<div class="etc-section-label" style="margin-top:1.5rem;">🔒 Member+</div>
+<div class="etc-index-grid">
+
+  <a href="/friez/devtools/leaderboard" class="etc-index-card {% if not user %}etc-locked{% endif %}">
+    <span class="etc-index-icon">🏆</span>
+    <div>
+      <div class="etc-index-name">BB Leaderboard</div>
+      <div class="etc-index-desc">Top 20 Burger Buck holders</div>
+    </div>
+    <span class="sc-tier" style="position:static;font-size:.65rem;">member</span>
+  </a>
+
+</div>
+
+{% if is_sensitive %}
+<div class="etc-section-label" style="margin-top:1.5rem;">⚠️ Sensitive</div>
+<div class="etc-index-grid">
+
+  <a href="/friez/devtools/errors#trigger" class="etc-index-card">
+    <span class="etc-index-icon">⚡</span>
+    <div>
+      <div class="etc-index-name">Error Trigger</div>
+      <div class="etc-index-desc">Fire HTTP errors to test pages</div>
+    </div>
+    <span class="sc-tier" style="position:static;font-size:.65rem;color:#ff9999;border-color:var(--danger);">sensitive</span>
+  </a>
+
+</div>
+{% endif %}
+
+{% if not user %}
+<p class="muted" style="margin-top:1.5rem;font-size:.8rem;">
+  🔒 <a href="/friez/dashboard/" style="color:var(--ice-3);">Log in</a> to unlock member tools.
+</p>
+{% endif %}
+
+{% endblock %}
+
+{% block head %}
+<style>
+  .etc-section-label {
+    font-family: var(--font-display);
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: .5rem;
+  }
+  .etc-index-grid {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    max-width: 600px;
+  }
+  .etc-index-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--card-bg);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .9rem 1.1rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color .2s, transform .15s;
+  }
+  .etc-index-card:hover { border-color: var(--ice-3); transform: translateX(3px); }
+  .etc-index-card.etc-locked { opacity: .45; pointer-events: none; }
+  .etc-index-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .etc-index-name { font-family: var(--font-display); font-size: .9rem; font-weight: 600; color: var(--ice-1); }
+  .etc-index-desc { font-size: .78rem; color: var(--muted); margin-top: .1rem; }
+  .etc-index-card > span:last-child { margin-left: auto; flex-shrink: 0; }
+</style>
+{% endblock %}

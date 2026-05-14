@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Word Filters — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>🛡 Word Filters</h1>
+</section>
+
+<div class="dash-body">
+  <div class="dash-card">
+    <h2>Add Filter</h2>
+    <div class="form-row">
+      <input id="f-list" class="ice-input" placeholder="List name (e.g. slurs)">
+      <input id="f-word" class="ice-input" placeholder="Word or phrase">
+      <select id="f-action" class="ice-select">
+        <option value="delete">delete</option>
+        <option value="warn">warn</option>
+        <option value="timeout">timeout</option>
+      </select>
+      <button class="btn-ice-sm" onclick="addFilter()">Add</button>
+    </div>
+    <div id="add-result" class="result-box hidden"></div>
+  </div>
+
+  {% for list_name, words in filters.items() %}
+  <div class="dash-card">
+    <h2>{{ list_name }} <span class="badge">{{ words|length }}</span></h2>
+    <div class="filter-chips">
+      {% for word in words %}
+      <span class="filter-chip">
+        {{ word }}
+        <button onclick="removeFilter('{{ list_name }}', '{{ word }}')" title="Remove">×</button>
+      </span>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="dash-card">
+    <p class="muted">No word filters on the board yet.</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function addFilter() {
+  const list_name = document.getElementById('f-list').value.trim();
+  const word      = document.getElementById('f-word').value.trim();
+  const action    = document.getElementById('f-action').value;
+  const box       = document.getElementById('add-result');
+  box.classList.remove('hidden');
+  if (!list_name || !word) { box.innerHTML = '<span class="err">Fill in list name and word.</span>'; return; }
+  const res = await api('/friez/dashboard/automod/api/add', 'POST', { list_name, word, action });
+  box.innerHTML = res.ok ? '<span class="ok">Added.</span>' : `<span class="err">${res.error}</span>`;
+  if (res.ok) setTimeout(() => location.reload(), 800);
+}
+
+async function removeFilter(list_name, word) {
+  const res = await api('/friez/dashboard/automod/api/remove', 'POST', { list_name, word });
+  res.ok ? location.reload() : alert(res.error);
+}
+</script>
+{% endblock %}

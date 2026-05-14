@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Economy — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>🪙 Economy</h1>
+</section>
+
+<div class="dash-body">
+
+  <div class="dash-card">
+    <h2>Look Up User</h2>
+    <div class="form-row">
+      <input id="uid-input" class="ice-input" type="text" placeholder="Discord User ID">
+      <button class="btn-ice-sm" onclick="lookupUser()">Look Up</button>
+    </div>
+    <div id="user-result" class="result-box hidden"></div>
+
+    {% if tier in ('mod', 'admin', 'dev') %}
+    <div id="user-actions" class="hidden" style="margin-top:1.5rem">
+      <h3>Adjust Balance</h3>
+      <div class="form-row">
+        <select id="currency" class="ice-select">
+          <option value="fc">🪙 Burger Bucks (BB)</option>
+          <option value="cr">💎 Crispy Credits (CC)</option>
+        </select>
+        <input id="amount" class="ice-input" type="number" min="1" placeholder="Amount">
+      </div>
+      <div class="form-row">
+        <button class="btn-ice-sm" onclick="adjustBalance('award')">+ Award</button>
+        <button class="btn-danger-sm" onclick="adjustBalance('deduct')">− Deduct</button>
+      </div>
+      <div id="adjust-result" class="result-box hidden"></div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="dash-card">
+    <h2>BB Leaderboard</h2>
+    <button class="btn-ice-sm" onclick="loadLeaderboard()">Load</button>
+    <div id="lb-result" class="result-box hidden"></div>
+  </div>
+
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+let currentUid = null;
+
+async function lookupUser() {
+  const uid = document.getElementById('uid-input').value.trim();
+  if (!uid) return;
+  currentUid = uid;
+  const res  = await api('/friez/dashboard/economy/api/user?user_id=' + uid);
+  const box  = document.getElementById('user-result');
+  box.classList.remove('hidden');
+  if (res.error) { box.innerHTML = `<span class="err">${res.error}</span>`; return; }
+  const u = res.user, inv = res.inventory;
+  box.innerHTML = `
+    <div class="stat-row"><span>BB</span><strong>${u.fc?.toLocaleString() ?? 0}</strong></div>
+    <div class="stat-row"><span>CC</span><strong>${u.cr?.toLocaleString() ?? 0}</strong></div>
+    <div class="stat-row"><span>Last daily</span><strong>${u.last_daily ? new Date(parseFloat(u.last_daily)*1000).toLocaleString() : 'Never'}</strong></div>
+    <div class="stat-row"><span>Name card</span><strong>${u.name_card || '—'}</strong></div>
+    <div class="stat-row"><span>Inventory</span><strong>${inv.length ? inv.join(', ') : 'Empty'}</strong></div>
+  `;
+  document.getElementById('user-actions')?.classList.remove('hidden');
+}
+
+async function adjustBalance(action) {
+  if (!currentUid) return;
+  const currency = document.getElementById('currency').value;
+  const amount   = parseInt(document.getElementById('amount').value);
+  if (!amount || amount < 1) return;
+  const res = await api(`/friez/dashboard/economy/api/${action}`, 'POST', { user_id: currentUid, currency, amount });
+  const box = document.getElementById('adjust-result');
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok
+    ? `<span class="ok">Done! New BB: ${res.new?.fc?.toLocaleString()} | CC: ${res.new?.cr?.toLocaleString()}</span>`
+    : `<span class="err">${res.error}</span>`;
+  lookupUser();
+}
+
+async function loadLeaderboard() {
+  const rows = await api('/friez/dashboard/economy/api/leaderboard');
+  const box  = document.getElementById('lb-result');
+  box.classList.remove('hidden');
+  const medals = ['🥇','🥈','🥉'];
+  box.innerHTML = rows.map((r, i) =>
+    `<div class="stat-row"><span>${medals[i] || (i+1) + '.'} <span data-uid="${r.user_id}">${r.user_id}</span></span><strong>${r.fc?.toLocaleString()} BB</strong></div>`
+  ).join('');
+  resolveAll();
+}
+</script>
+{% endblock %}

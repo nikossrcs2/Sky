@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}AI Config — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>🤖 AI Configuration</h1>
+</section>
+
+<div class="dash-body">
+  <div class="dash-card">
+    <h2>AI Auto-Response Channel</h2>
+    <p class="muted">When set, Friez responds to every message in this channel automatically.</p>
+    <div class="stat-row">
+      <span>Current channel ID</span>
+      <strong data-cid="{{ channel_id }}">{{ channel_id or 'Not set' }}</strong>
+    </div>
+    <div class="form-row" style="margin-top:1rem">
+      <input id="channel-id" class="ice-input" placeholder="Channel ID" value="{{ channel_id or '' }}">
+      <button class="btn-ice-sm" onclick="setChannel()">Set</button>
+      <button class="btn-danger-sm" onclick="unsetChannel()">Unset</button>
+    </div>
+    <div id="channel-result" class="result-box hidden"></div>
+  </div>
+
+  <div class="dash-card">
+    <h2>DM Safety Scanner</h2>
+    <div class="stat-row">
+      <span>Scan model</span>
+      <strong>{{ scan_model }}</strong>
+    </div>
+    <p class="muted">The scan model is configured via the <code>DM_SCAN_MODEL</code> environment variable on the bot host. Change it there and restart the bot.</p>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function setChannel() {
+  const cid = document.getElementById('channel-id').value.trim();
+  const box = document.getElementById('channel-result');
+  box.classList.remove('hidden');
+  const res = await api('/friez/dashboard/ai/api/setchannel', 'POST', { channel_id: cid });
+  box.innerHTML = res.ok ? '<span class="ok">Channel set.</span>' : `<span class="err">${res.error}</span>`;
+}
+async function unsetChannel() {
+  const box = document.getElementById('channel-result');
+  box.classList.remove('hidden');
+  const res = await api('/friez/dashboard/ai/api/unsetchannel', 'POST', {});
+  box.innerHTML = res.ok ? '<span class="ok">Channel unset.</span>' : `<span class="err">${res.error}</span>`;
+}
+</script>
+{% endblock %}

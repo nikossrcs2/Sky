@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Devtools Access{% endblock %}
+{% block content %}
+<div class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>🛠 Devtools Access</h1>
+  <p>Grant or revoke sensitive devtools access for specific users.</p>
+</div>
+
+<div class="dash-body">
+  <div class="dash-card">
+    <h2>➕ Grant Access</h2>
+    <div class="form-row">
+      <input class="ice-input" id="grant-uid" placeholder="Discord User ID" style="max-width:260px;">
+      <button class="btn-ice-sm" onclick="grantAccess()">Grant</button>
+    </div>
+    <div id="grant-result" class="result-box hidden"></div>
+  </div>
+
+  <div class="dash-card" style="margin-top:1rem;">
+    <h2>👥 Current Access</h2>
+    {% if users %}
+    <table class="ice-table">
+      <thead><tr><th>User ID</th><th></th></tr></thead>
+      <tbody id="access-table">
+        {% for uid in users %}
+        <tr id="row-{{ uid }}">
+          <td><code>{{ uid }}</code></td>
+          <td><button class="btn-danger-sm" onclick="revokeAccess('{{ uid }}')">Revoke</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No users currently have devtools access.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function grantAccess() {
+  const uid = document.getElementById('grant-uid').value.trim();
+  const res = document.getElementById('grant-result');
+  if (!uid) return;
+  const r = await fetch('/friez/dashboard/devtools/api/grant', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({user_id: uid})
+  });
+  const d = await r.json();
+  res.classList.remove('hidden');
+  if (d.ok) {
+    res.className = 'result-box ok';
+    res.textContent = '✅ Access granted to ' + uid;
+    const tbody = document.getElementById('access-table');
+    if (tbody) {
+      const row = document.createElement('tr');
+      row.id = 'row-' + uid;
+      row.innerHTML = '<td><code>' + uid + '</code></td><td><button class="btn-danger-sm" onclick="revokeAccess(\''+uid+'\')">Revoke</button></td>';
+      tbody.appendChild(row);
+    }
+  } else {
+    res.className = 'result-box err';
+    res.textContent = '❌ Failed.';
+  }
+}
+
+async function revokeAccess(uid) {
+  const r = await fetch('/friez/dashboard/devtools/api/revoke', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({user_id: uid})
+  });
+  const d = await r.json();
+  if (d.ok) {
+    const row = document.getElementById('row-' + uid);
+    if (row) row.remove();
+  }
+}
+</script>
+{% endblock %}

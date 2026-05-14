@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Settings — Dashboard{% endblock %}
+{% block content %}
+<section class="dash-header">
+  <a href="/friez/dashboard/" class="back-link">← Dashboard</a>
+  <h1>⚙️ Guild Settings</h1>
+</section>
+<div class="dash-body">
+  <div class="dash-card">
+    <h2>Set / Update</h2>
+    <div class="form-row">
+      <input id="s-key"   class="ice-input" placeholder="Key (e.g. log_channel)">
+      <input id="s-value" class="ice-input" placeholder="Value">
+      <button class="btn-ice-sm" onclick="setSetting()">Set</button>
+    </div>
+    <div id="s-result" class="result-box hidden"></div>
+  </div>
+
+  <div class="dash-card">
+    <h2>All Settings <span class="badge">{{ settings|length }}</span></h2>
+    {% if settings %}
+    <table class="ice-table">
+      <thead><tr><th>Key</th><th>Value</th><th></th></tr></thead>
+      <tbody>
+        {% for key, value in settings.items() %}
+        <tr>
+          <td><code>{{ key }}</code></td>
+          <td>{{ value }}</td>
+          <td><button class="btn-danger-sm" onclick="deleteSetting('{{ key }}')">Delete</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">No guild settings stored yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+async function setSetting() {
+  const res = await api('/friez/dashboard/settings/api/set', 'POST', {
+    key: document.getElementById('s-key').value.trim(),
+    value: document.getElementById('s-value').value.trim()
+  });
+  const box = document.getElementById('s-result');
+  box.classList.remove('hidden');
+  box.innerHTML = res.ok ? '<span class="ok">Saved.</span>' : `<span class="err">${res.error}</span>`;
+  if (res.ok) setTimeout(() => location.reload(), 800);
+}
+async function deleteSetting(key) {
+  const res = await api('/friez/dashboard/settings/api/delete', 'POST', { key });
+  res.ok ? location.reload() : alert(res.error);
+}
+</script>
+{% endblock %}
